@@ -3,14 +3,14 @@ package com.fidelity.transactionservice.endpoints;
 import com.fidelity.transactionservice.models.Transaction;
 import com.fidelity.transactionservice.repositories.TransactionsRepository;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin
+@RequestMapping("/txns")
 public class TransactionController {
 
     private final TransactionsRepository repo;
@@ -19,7 +19,7 @@ public class TransactionController {
         this.repo = repo;
     }
 
-    @GetMapping("/txns")
+    @GetMapping
     public List<Transaction> getTransactions(@RequestParam(defaultValue = "") String filter) {
         try {
             return repo.getTransactions(filter);
