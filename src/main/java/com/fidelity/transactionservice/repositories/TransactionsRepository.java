@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Repository
@@ -29,8 +31,15 @@ public class TransactionsRepository {
 
     public List<Transaction> getTransactions(String filter) {
         return transactions.stream()
-                .filter(trans -> trans.getCategory()
-                        .equals(TransactionCategory.valueOf(filter.toUpperCase())))
+                .filter(trans -> finder(trans, filter))
                 .collect(Collectors.toList());
+    }
+
+    private Boolean finder(Transaction transaction, String filter) {
+        if(filter.length() == 0) return true;
+        else {
+            return transaction.getCategory()
+                    .equals(TransactionCategory.valueOf(filter.toUpperCase()));
+        }
     }
 }
